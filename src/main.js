@@ -22,26 +22,19 @@ form.addEventListener('submit', e => {
   e.preventDefault();
 
   hideLoadMoreButton();
-
   clearGallery();
 
   query = e.target.elements['search-text'].value.trim();
-
   if (!query) return;
 
   page = 1;
-
   showImages(query);
 });
 
-loadMoreBtn.addEventListener('click', e => {
+loadMoreBtn.addEventListener('click', () => {
   hideLoadMoreButton();
-
   page++;
-
   showImages(query);
-
-  scrollView();
 });
 
 async function showImages(query) {
@@ -53,6 +46,8 @@ async function showImages(query) {
 
     if (images && images.length > 0) {
       createGallery(images);
+
+      scrollView();
 
       if (page >= Math.ceil(data.totalHits / perPage)) {
         iziToast.show({
@@ -84,11 +79,14 @@ async function showImages(query) {
 }
 
 function scrollView() {
-  const lastItem = document.querySelector('.gallery .gallery-item:last-child');
-  if (!lastItem) return;
+  const firstGalleryItem = document.querySelector('.gallery .gallery-item');
+  if (!firstGalleryItem) return;
 
-  lastItem.scrollIntoView({
+  const cardHeight = firstGalleryItem.getBoundingClientRect().height;
+
+  window.scrollBy({
+    top: cardHeight * 2,
     behavior: 'smooth',
-    block: 'start',
   });
 }
+
