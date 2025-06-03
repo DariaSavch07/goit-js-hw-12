@@ -84,13 +84,11 @@ async function showImages(query) {
 }
 
 function scrollView() {
-  const galleryItem = document.querySelector('.gallery-item');
-  if (!galleryItem) return;
-  setTimeout(() => {
-    scrollBy({
-      top: galleryItem.getBoundingClientRect().height * 2,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, 200);
+  const lastItem = document.querySelector('.gallery .gallery-item:last-child');
+  if (!lastItem) return;
+
+  lastItem.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start',
+  });
 }
