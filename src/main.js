@@ -73,10 +73,23 @@ async function showImages(query) {
     }
   } catch (err) {
     console.error(err);
+    let message = 'An error occurred while fetching images. Please try again later.';
+    if (err.response && err.response.status === 500) {
+      message = 'Server error. Please try again later.';
+    }
+    iziToast.show({
+      title: '⚠️',
+      message: message,
+      messageColor: 'white',
+      titleColor: 'white',
+      backgroundColor: '#ff9800',
+      position: 'topRight',
+    });
   } finally {
     hideLoader();
   }
 }
+
 
 function scrollView() {
   const firstGalleryItem = document.querySelector('.gallery .gallery-item');
